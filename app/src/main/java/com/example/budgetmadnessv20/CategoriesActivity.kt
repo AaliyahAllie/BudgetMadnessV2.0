@@ -33,8 +33,15 @@ class CategoriesActivity : AppCompatActivity() {
         deleteCategoryButton = findViewById(R.id.deleteCategoryButton)
 
         //LOAD CATEGORIES INTO LIST
+        categories = dbHelper.getAllCategories().toMutableList()
+        adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,categories)
+        categoryListView.adapter = adapter
 
         //HANDLE ITEM INTO LISTVIEW
+        categoryListView.setOnItemClickListener { _, _, position, _ ->
+            selectedCategory = categories[position]
+            Toast.makeText(this, "$selectedCategory selected", Toast.LENGTH_SHORT).show()
+        }
 
         //ADD CATEGORY BUTTON
 
