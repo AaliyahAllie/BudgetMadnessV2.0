@@ -2,6 +2,7 @@ package com.example.budgetmadnessv20
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -54,29 +55,37 @@ class IncomeActivity : AppCompatActivity() {
             }
         }
 
+
+        //bottom navigation to different screens
+        // Bottom Navigation setup adapted from Android developer documentation and common practice
+        // Source: https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView
+        // This code handles item selection from the BottomNavigationView and launches the corresponding Activity
+
+        //BOTTOM NAV
+        //navigation to other screens
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                //navigates to income screen
                 R.id.nav_income -> {
-                    logEvent("Navigating to IncomeActivity")
                     startActivity(Intent(this, IncomeActivity::class.java))
                     true
                 }
+                //navigates to home screen
                 R.id.nav_home -> {
-                    logEvent("Navigating to StarterPageActivity")
-                    startActivity(Intent(this, StarterPageActivity::class.java))
+                    startActivity(Intent(this, HomeScreenActivity::class.java))
                     true
                 }
+                //allows user to add expenses on redirect
                 R.id.nav_add -> {
-                    logEvent("Navigating to AddExpensesActivity")
                     startActivity(Intent(this, AddExpensesActivity::class.java))
                     true
                 }
                 R.id.nav_open_menu -> {
-                    logEvent("Navigating to MenuActivity")
                     startActivity(Intent(this, MenuActivity::class.java))
                     true
                 }
+
                 else -> false
             }
         }

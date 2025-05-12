@@ -1,8 +1,11 @@
 package com.example.budgetmadnessv20
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class BudgetViewActivity : AppCompatActivity() {
 
@@ -40,5 +43,38 @@ class BudgetViewActivity : AppCompatActivity() {
                 budgetDetailsText.text = "No budget found for $selectedMonth."
             }
         }
+
+        //BOTTOM NAV
+        //navigation to other screens
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                //navigates to income screen
+                R.id.nav_income -> {
+                    startActivity(Intent(this, IncomeActivity::class.java))
+                    true
+                }
+                //navigates to home screen
+                R.id.nav_home -> {
+                    startActivity(Intent(this, HomeScreenActivity::class.java))
+                    true
+                }
+                //allows user to add expenses on redirect
+                R.id.nav_add -> {
+                    startActivity(Intent(this, AddExpensesActivity::class.java))
+                    true
+                }
+                R.id.nav_open_menu -> {
+                    startActivity(Intent(this, MenuActivity::class.java))
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+
     }
 }
+
+
