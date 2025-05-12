@@ -30,7 +30,7 @@ class AddExpensesActivity : AppCompatActivity() {
     private var selectedImageBytes: ByteArray? = null
     private var imageUri: Uri? = null
 
-    private var selectDate: String = ""
+    private var selectedDate:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,18 +55,83 @@ class AddExpensesActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapter
 
-
-
         //DATE PICKER
         //Function logic adapted from:[https://www.geeksforgeeks.org/datepicker-in-kotlin/]
+        selectDateButton.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, { _, y, m, d ->
+                var selectedDate = "$y-${m + 1}-$d"
+                selectDateButton.text = selectedDate
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
 
 
-            //ADD EXPENSE
+        //ADD EXPENSE
         //Function logic adapted from:[https://www.geeksforgeeks.org/android-sqlite-database-in-kotlin/]
+        addExpenseButton.setOnClickListener{
+            val name = expenseNameInput.text.toString()
+            val amount = expenseAmountInput.text.toString().toDoubleOrNull()?:0.0
+            val paymentMethod = paymentMethodInput.text.toString()
+            val category = categorySpinner.selectedItem?.toString() ?: ""
+            val date = selectedDate
 
-
-        //BOTTOM NAVIGATION
+            if (name.isNotEmpty() && amount > 0 && paymentMethod.isNotEmpty() && category.isNotEmpty() && date.isNotEmpty()) {
+                dbHelper.insertExpense(name, amount, paymentMethod, category, date)
+                Toast.makeText(this, "Expense added!", Toast.LENGTH_SHORT).show()
+                clearInputs()
+            } else {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
+        //ADD RECEIPT
+
+
+        //BOTTOM NAVIGATION
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_income -> {
+                    startActivity(Intent(this, IncomeActivity::class.java))
+                    true
+                }
+
+                R.id.nav_home -> {
+                    startActivity(Intent(this, StarterPageActivity::class.java))
+                    true
+                }
+
+                R.id.nav_add -> {
+                    startActivity(Intent(this, AddExpensesActivity::class.java))
+                    true
+                }
+
+                R.id.nav_open_menu -> {
+                    startActivity(Intent(this, MenuActivity::class.java))
+                    true
+                }
+
+                else -> false
+
+            }
+
+        }
+    }
+
+    private fun clearInputs() {
+
+        expenseNameInput.text.clear()
+        expenseAmountInput.text.clear()
+        paymentMethodInput.text.clear()
+        categorySpinner.setSelection(0)
+        selectDateButton.text = "Select Date"
+        selectedDate = ""
+    }
 }

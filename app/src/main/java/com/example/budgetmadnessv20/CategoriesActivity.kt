@@ -33,17 +33,81 @@ class CategoriesActivity : AppCompatActivity() {
         deleteCategoryButton = findViewById(R.id.deleteCategoryButton)
 
         //LOAD CATEGORIES INTO LIST
+        categories = dbHelper.getAllCategories().toMutableList()
+        adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,categories)
+        categoryListView.adapter = adapter
 
         //HANDLE ITEM INTO LISTVIEW
+        categoryListView.setOnItemClickListener { _, _, position, _ ->
+            selectedCategory = categories[position]
+            Toast.makeText(this, "$selectedCategory selected", Toast.LENGTH_SHORT).show()
+        }
 
         //ADD CATEGORY BUTTON
+        addCategoryButton.setOnClickListener {
+            val newCategory = newCategoryInput.text.toString().trim()
+            if (newCategory.isNotEmpty()) {
+                val success = dbHelper.insertCategory(newCategory)
+                if (success) {
+                    Toast.makeText(this, "Category added!", Toast.LENGTH_SHORT).show()
+                    newCategoryInput.text.clear()
+                    loadCategories()
+                } else {
+                    Toast.makeText(this, "Failed to add. Might already exist.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Enter a valid category", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         //DELETE CATEGORY BUTTON
+        deleteCategoryButton.setOnClickListener {
+            selectedCategory?.let { category ->
+                val success = dbHelper.deleteCategory(category)
+                if (success) {
+                    Toast.makeText(this, "$category deleted!", Toast.LENGTH_SHORT).show()
+                    loadCategories()
+                } else {
+                    Toast.makeText(this, "Failed to delete category", Toast.LENGTH_SHORT).show()
+                }
+            } ?: run {
+                Toast.makeText(this, "Select a category to delete", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         //BOTTOM NAVIGATION
-
-
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_income -> {
+                    startActivity(Intent(this, IncomeActivity::class.java))
+                    true
+                }
+                R.id.nav_home -> {
+                    startActivity(Intent(this, StarterPageActivity::class.java))
+                    true
+                }
+                R.id.nav_add -> {
+                    startActivity(Intent(this, AddExpensesActivity::class.java))
+                    true
+                }
+                R.id.nav_open_menu -> {
+                    startActivity(Intent(this, MenuActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
     }
+    private fun loadCategories() {
+        categories.clear()
+        categories.addAll(dbHelper.getAllCategories())
+        adapter.notifyDataSetChanged()
+    }
+
 }
+
+
 
