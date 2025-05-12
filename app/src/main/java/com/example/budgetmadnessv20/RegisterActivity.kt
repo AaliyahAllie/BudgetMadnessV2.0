@@ -13,7 +13,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var dbHelper: DatabaseHelper
     private val TAG = "RegisterActivity"
-
+//captures users information logs it and stores it into the databse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -22,7 +22,7 @@ class RegisterActivity : AppCompatActivity() {
         logToFile("RegisterActivity started")
 
         dbHelper = DatabaseHelper(this)
-
+//captures user information into database
         val username = findViewById<EditText>(R.id.usernameInput)
         val password = findViewById<EditText>(R.id.passwordInput)
         val firstName = findViewById<EditText>(R.id.firstNameInput)
@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.emailInput)
         val phone = findViewById<EditText>(R.id.phoneInput)
         val registerBtn = findViewById<Button>(R.id.registerUserBtn)
-
+//button saves data
         registerBtn.setOnClickListener {
             val user = username.text.toString().trim()
             val pass = password.text.toString().trim()
@@ -42,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
             val logMessage = "Register clicked - Username: $user, First Name: $first, Last Name: $last, Email: $mail, Phone: $phoneNum"
             Log.d(TAG, logMessage)
             logToFile(logMessage)
-
+//if data is successfully stored it will redirect to users login station
             if (user.isNotEmpty() && pass.isNotEmpty() && first.isNotEmpty() && last.isNotEmpty() && mail.isNotEmpty() && phoneNum.isNotEmpty()) {
                 dbHelper.addUser(user, pass, first, last, mail, phoneNum)
 
