@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-//this screen will display the users total balance and their transaction history
+
 class BalanceActivity : AppCompatActivity() {
 
     private val TAG = "BalanceActivity"
-    //connection to database
+
     private lateinit var dbHelper: IncomeDatabaseHelper
     private lateinit var expenseDbHelper: BudgetDatabaseHelper
     private lateinit var totalIncomeText: TextView
@@ -23,10 +23,10 @@ class BalanceActivity : AppCompatActivity() {
     private lateinit var recyclerViewExpenses: RecyclerView
     private lateinit var incomeAdapter: IncomeHistoryAdapter
     private lateinit var expenseAdapter: ExpenseHistoryAdapter
-    //will rebase itself every 2 seconds to keep an uptodate total balance
+
     private val handler = Handler(Looper.getMainLooper())
     private val updateInterval = 2000L // 2 seconds
-    //updates history of income transactions
+
     private val incomeUpdater = object : Runnable {
         override fun run() {
             val totalIncome = dbHelper.getTotalIncome()
@@ -42,7 +42,7 @@ class BalanceActivity : AppCompatActivity() {
             handler.postDelayed(this, updateInterval)
         }
     }
-    //saves the instances to the text blocks to display them
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance)
@@ -69,34 +69,24 @@ class BalanceActivity : AppCompatActivity() {
         recyclerViewExpenses.layoutManager = LinearLayoutManager(this)
         recyclerViewExpenses.adapter = expenseAdapter
 
-
-        //bottom navigation to different screens
-        // Bottom Navigation setup adapted from Android developer documentation and common practice
-    // Source: https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView
-    // This code handles item selection from the BottomNavigationView and launches the corresponding Activity
-
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                //navigates to income screen
                 R.id.nav_income -> {
                     Log.d(TAG, "Navigating to IncomeActivity")
                     startActivity(Intent(this, IncomeActivity::class.java))
                     true
                 }
-                //navigates to home screen
                 R.id.nav_home -> {
                     Log.d(TAG, "Navigating to StarterPageActivity")
-                    startActivity(Intent(this, HomeScreenActivity::class.java))
+                    startActivity(Intent(this, StarterPageActivity::class.java))
                     true
                 }
-                //navigation to add expenses
                 R.id.nav_add -> {
                     Log.d(TAG, "Navigating to AddExpensesActivity")
                     startActivity(Intent(this, AddExpensesActivity::class.java))
                     true
                 }
-                //navigation to menu nav
                 R.id.nav_open_menu -> {
                     Log.d(TAG, "Navigating to MenuActivity")
                     startActivity(Intent(this, MenuActivity::class.java))
