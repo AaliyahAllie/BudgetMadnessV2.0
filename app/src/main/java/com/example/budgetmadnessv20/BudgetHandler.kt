@@ -20,6 +20,31 @@ class BudgetHandler(context: Context) :
         """.trimIndent()
         db.execSQL(createTable)
     }
+    data class Budget(val month: String, val min: Double, val max: Double, val entered: Double)
+
+    fun getBudgetForMonth(month: String): Budget? {
+        val db = readableDatabase
+        val cursor = db.query(
+            TABLE_NAME,
+            arrayOf(COLUMN_MONTH, COLUMN_MIN, COLUMN_MAX, COLUMN_BUDGET),
+            "$COLUMN_MONTH = ?",
+            arrayOf(month),
+            null,
+            null,
+            null
+        )
+
+        return if (cursor.moveToFirst()) {
+            val min = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_MIN))
+            val max = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_MAX))
+            val entered = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_BUDGET))
+            cursor.close()
+            Budget(month, min, max, entered)
+        } else {
+            cursor.close()
+            null
+        }
+    }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
