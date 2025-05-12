@@ -74,7 +74,24 @@ class AddExpensesActivity : AppCompatActivity() {
 
         //ADD EXPENSE
         //Function logic adapted from:[https://www.geeksforgeeks.org/android-sqlite-database-in-kotlin/]
+        addExpenseButton.setOnClickListener{
+            val name = expenseNameInput.text.toString()
+            val amount = expenseAmountInput.text.toString().toDoubleOrNull()?:0.0
+            val paymentMethod = paymentMethodInput.text.toString()
+            val category = categorySpinner.selectedItem?.toString() ?: ""
+            val date = selectedDate
 
+            if (name.isNotEmpty() && amount > 0 && paymentMethod.isNotEmpty() && category.isNotEmpty() && date.isNotEmpty()) {
+                dbHelper.insertExpense(name, amount, paymentMethod, category, date)
+                Toast.makeText(this, "Expense added!", Toast.LENGTH_SHORT).show()
+                clearInputs()
+            } else {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        //ADD RECEIPT
 
 
         //BOTTOM NAVIGATION
