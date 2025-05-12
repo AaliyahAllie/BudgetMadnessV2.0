@@ -25,6 +25,23 @@ class CategoriesActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_categories)
 
+        dbHelper = BudgetDatabaseHelper(this)
+
+        categoryListView = findViewById(R.id.categoryListView)
+        newCategoryInput = findViewById(R.id.newCategoryInput)
+        addCategoryButton = findViewById(R.id.addCategoryButton)
+
+        //LOAD CATEGORIES INTO LIST
+
+        //HANDLE ITEM INTO LISTVIEW
+
+        //ADD CATEGORY BUTTON
+
+        //DELETE CATEGORY BUTTON
+
+        //BOTTOM NAVIGATION
+
+
 
     }
 }
