@@ -15,7 +15,7 @@ class CategoriesActivity : AppCompatActivity() {
     private lateinit var categoryListView: ListView
     private lateinit var newCategoryInput: EditText
     private lateinit var addCategoryButton: Button
-    private lateinit var deleteCategory:Button
+    private lateinit var deleteCategoryButton:Button
     private lateinit var adapter:ArrayAdapter<String>
     private lateinit var categories:MutableList<String>
     private var selectedCategory:String? = null  // Track selected category
@@ -30,6 +30,7 @@ class CategoriesActivity : AppCompatActivity() {
         categoryListView = findViewById(R.id.categoryListView)
         newCategoryInput = findViewById(R.id.newCategoryInput)
         addCategoryButton = findViewById(R.id.addCategoryButton)
+        deleteCategoryButton = findViewById(R.id.deleteCategoryButton)
 
         //LOAD CATEGORIES INTO LIST
 
