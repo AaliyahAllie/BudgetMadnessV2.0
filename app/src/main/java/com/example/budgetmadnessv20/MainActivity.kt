@@ -49,4 +49,4 @@ class MainActivity : AppCompatActivity() {
             android.util.Log.e("MainActivityLog", "Failed to write log: ${e.message}")
         }
     }
-}}
+}
