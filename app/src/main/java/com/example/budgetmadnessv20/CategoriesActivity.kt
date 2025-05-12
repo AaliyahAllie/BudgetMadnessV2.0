@@ -44,6 +44,21 @@ class CategoriesActivity : AppCompatActivity() {
         }
 
         //ADD CATEGORY BUTTON
+        addCategoryButton.setOnClickListener {
+            val newCategory = newCategoryInput.text.toString().trim()
+            if (newCategory.isNotEmpty()) {
+                val success = dbHelper.insertCategory(newCategory)
+                if (success) {
+                    Toast.makeText(this, "Category added!", Toast.LENGTH_SHORT).show()
+                    newCategoryInput.text.clear()
+                    loadCategories()
+                } else {
+                    Toast.makeText(this, "Failed to add. Might already exist.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Enter a valid category", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         //DELETE CATEGORY BUTTON
         deleteCategoryButton.setOnClickListener {
