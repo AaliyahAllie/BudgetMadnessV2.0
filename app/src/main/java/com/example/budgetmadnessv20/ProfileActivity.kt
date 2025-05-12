@@ -24,7 +24,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         dbHelper = DatabaseHelper(this)
-
+//captures users updated or changed data into the database
         val profileImage = findViewById<ImageView>(R.id.profileImage)
         val btnChangeImage = findViewById<Button>(R.id.btnChangeImage)
         val etFirstName = findViewById<EditText>(R.id.etFirstName)
@@ -37,7 +37,7 @@ class ProfileActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
-
+//uploads the data to database on clock
         btnSave.setOnClickListener {
             val updated = dbHelper.updateUser(
                 currentUsername,
@@ -53,17 +53,21 @@ class ProfileActivity : AppCompatActivity() {
             ).show()
         }
         //BOTTOM NAV
+        //navigation to other screens
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                //navigates to income screen
                 R.id.nav_income -> {
                     startActivity(Intent(this, IncomeActivity::class.java))
                     true
                 }
+                //navigates to home screen
                 R.id.nav_home -> {
-                    startActivity(Intent(this, StarterPageActivity::class.java))
+                    startActivity(Intent(this, HomeScreenActivity::class.java))
                     true
                 }
+                //allows user to add expenses on redirect
                 R.id.nav_add -> {
                     startActivity(Intent(this, AddExpensesActivity::class.java))
                     true
