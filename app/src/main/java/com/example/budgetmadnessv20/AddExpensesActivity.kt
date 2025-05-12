@@ -50,13 +50,18 @@ class AddExpensesActivity : AppCompatActivity() {
 
         //SPINNER SETUP
         //function logic adapted from:[https://www.geeksforgeeks.org/spinner-in-kotlin/]
+        val categories = dbHelper.getAllCategories()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = adapter
+
 
 
         //DATE PICKER
         //Function logic adapted from:[https://www.geeksforgeeks.org/datepicker-in-kotlin/]
 
 
-        //ADD EXPENSE
+            //ADD EXPENSE
         //Function logic adapted from:[https://www.geeksforgeeks.org/android-sqlite-database-in-kotlin/]
 
 
