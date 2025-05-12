@@ -22,7 +22,7 @@ class AddExpensesActivity : AppCompatActivity() {
     private lateinit var expenseAmountInput: EditText
     private lateinit var paymentMethodInput: EditText
     private lateinit var categorySpinner: Spinner
-    private lateinit var selectDataButton: Button
+    private lateinit var selectDateButton: Button
     private lateinit var uploadReceiptButton: Button
     private lateinit var addExpenseButton: Button
     private val PICK_IMAGE_REQUEST = 1
@@ -40,6 +40,13 @@ class AddExpensesActivity : AppCompatActivity() {
         val dbHelper = BudgetDatabaseHelper(this)
 
         //LINK VIEWS
+        expenseNameInput = findViewById(R.id.expenseNameInput)
+        expenseAmountInput = findViewById(R.id.expenseAmountInput)
+        paymentMethodInput = findViewById(R.id.paymentMethodInput)
+        categorySpinner = findViewById(R.id.categorySpinner)
+        selectDateButton = findViewById(R.id.selectDateButton)
+        uploadReceiptButton = findViewById(R.id.uploadReceiptButton)
+        addExpenseButton = findViewById(R.id.addExpenseButton)
 
         //SPINNER SETUP
         //function logic adapted from:[https://www.geeksforgeeks.org/spinner-in-kotlin/]
